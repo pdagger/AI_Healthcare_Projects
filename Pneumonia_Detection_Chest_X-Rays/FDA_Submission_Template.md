@@ -49,12 +49,29 @@ VGG16 architecture up to pooling of 3rd convolutional layer from block 5.
 ### 3. Algorithm Training
 
 **Parameters:**
-* Types of augmentation used during training
-* Batch size
-* Optimizer learning rate
-* Layers of pre-existing architecture that were frozen
-* Layers of pre-existing architecture that were fine-tuned
-* Layers added to pre-existing architecture
+* Types of augmentation used during training:
+  - Horizontal_flip.
+  - Vertical_flip.
+  - Height shift between 0 and 0.1.
+  - Width shift between 0 and 0.1.
+  - Rotation between 0° and 20°.
+  - Shear between 0 and 0.1.
+  - Zoom between 0 and 0.1
+
+* Batch size:
+  - Training: 16.
+  - Validation: 6037.
+
+* Optimizer learning rate: 0.0001.
+* Layers of pre-existing architecture that were frozen:
+first 16 layers.
+
+* Layers of pre-existing architecture that were fine-tuned: 17 and 18 (see image above).
+* Layers added to pre-existing architecture: 11 layers added (image below).
+
+Model_1 below corresponds to pretrained VGG16 architecture.
+
+<img src="./added_layers.png" alt="Added layers." width="600"/>
 
 << Insert algorithm training performance visualization >> 
 
