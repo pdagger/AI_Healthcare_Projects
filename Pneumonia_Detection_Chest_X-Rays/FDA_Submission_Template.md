@@ -83,6 +83,8 @@ Model_1 below corresponds to pretrained VGG16 architecture.
 
 **Final Threshold and Explanation:**
 
+Given that the classes of interest in the dataset are so unbalanced, the behavior of the non dominant class was considered and thus more importance was given to the recall metric. For the develped model, lower thresholds give rise to better recalls but they considerably increase the false positive rates. A threshold of 0.45 giving an acceptable recall of ~0.7 was choosen as it gives a good balance between true positves and false positives: it will detect true positives ~70% of the times without exagerating the account of false positives.
+
 ### 4. Databases
  (For the below, include visualizations as they are useful and relevant)
 
