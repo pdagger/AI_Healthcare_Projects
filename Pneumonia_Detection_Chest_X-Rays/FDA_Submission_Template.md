@@ -26,14 +26,25 @@ The algotihm was trained in a huge dataset where only 1.28% of the images corres
 
 ### 2. Algorithm Design and Function
 
-![](./model_plot.png)
+Model plot: "model_1: Model" corresponds to a pretrained VGG16 architecture.
+
+![Model plot: "model_1: Model" corresponds to a pretrained VGG16 architecture.](./model_plot.png)
 
 **DICOM Checking Steps:**
 
+Images checked to be gray images.
+
 **Preprocessing Steps:**
+
+If images are RGB, changed to gray.
+Images scaled bewteen 0 and 255 (divided by 255).
 
 **CNN Architecture:**
 
+CNN architecture VGG16 pretrained model.
+VGG16 architecture up to pooling of 3rd convolutional layer from block 5.
+
+<img src="./model_1_VGG16.png" alt="CNN architecture VGG16 pretrained model." width="600"/>
 
 ### 3. Algorithm Training
 
