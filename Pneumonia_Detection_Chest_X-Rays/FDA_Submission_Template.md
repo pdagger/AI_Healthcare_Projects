@@ -73,11 +73,13 @@ Model_1 below corresponds to pretrained VGG16 architecture.
 
 <img src="./added_layers.png" alt="Added layers." width="600"/>
 
-Training performance visualization:
+* Training performance visualization:
 
 <img src="./performance_visual.png" alt="performance." width="600"/>
 
-<< Insert P-R curve >>
+ * P-R curve:
+
+<img src="./p-r_curve.png" alt="performance." width="600"/>
 
 **Final Threshold and Explanation:**
 
