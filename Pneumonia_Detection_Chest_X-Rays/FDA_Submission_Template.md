@@ -90,18 +90,35 @@ Given that the classes of interest in the dataset are so unbalanced, the behavio
 
 **Description of Training Dataset:** 
 
+  - Data with no pneumonia: 50%.
+  - Data with pneumonia: 50%.
+  - Number of training images: 2288.
+  - Number of validating images: 6037.
 
 **Description of Validation Dataset:** 
 
+  - Data with no pneumonia (as in original dataset): 98.72%.
+  - Data with pneumonia (as in original dataset): 1.28%.
+  - Number of validation images (different from training validation images): 6037.
 
 ### 5. Ground Truth
 
+Data curated by NIH. Ground truth labels extracted using Natural Language Processing (NLP). This is one of its biggest limitation but the NLP accuracy labeling was estimated to be better than 90%.
 
+The second biggest limitation is the low amount of pneumonia images in the dataset but this was taken into account for training and model results interpretation.
 
 ### 6. FDA Validation Plan
 
 **Patient Population Description for FDA Validation Dataset:**
 
+  - Human subjects between 20-70 years old.
+  - Chest X-ray studies taken in PA or AP positions.
+  - Most common co-occorrences: edema and infiltration.
+
 **Ground Truth Acquisition Methodology:**
 
+The optimal ground truth will take into account confirmation of the disease by histopathology. When this is not possible the labelling from experienced radiologists could be considered.
+
 **Algorithm Performance Standard:**
+
+To evaluate the algorithm performance, F1 scores of the algorithm predictions compared to 4 different radiologists will be considered. A final F1 average score weighted by the radiologist's years of experience will be reported as the final performance standard.
