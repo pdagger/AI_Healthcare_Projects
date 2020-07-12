@@ -10,15 +10,23 @@
 
 **Intended Use Statement:** 
 
+For assisting the radiologist in the detection of pneumonia in a chest X-ray image.
+
 **Indications for Use:**
+
+Screening chest X-ray studies taken in PA or AP positions from any human subject between ages 2-90 years old. The human may present or not any other chest condition detectable by X-ray.
 
 **Device Limitations:**
 
+The algorithm is best adapted for subjects between 20-70 years old.
+
 **Clinical Impact of Performance:**
+
+The algotihm was trained in a huge dataset where only 1.28% of the images corresponded to patients with pneumonia. Then it is designed to have a high number of false positives in order to minimize false negatives.
 
 ### 2. Algorithm Design and Function
 
-<< Insert Algorithm Flowchart >>
+![](./model_plot.png)
 
 **DICOM Checking Steps:**
 
