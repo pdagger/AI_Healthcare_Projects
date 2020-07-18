@@ -14,15 +14,17 @@ For assisting the radiologist in the detection of pneumonia in a chest X-ray ima
 
 **Indications for Use:**
 
-Screening chest X-ray studies taken in PA or AP positions from any human subject between ages 2-90 years old. The human may present or not any other chest condition detectable by X-ray.
+Screening chest X-ray studies taken in PA or AP positions from any human subject between ages 2-90 years old. The subject may present or not any other chest condition detectable by X-ray.
 
 **Device Limitations:**
 
 The algorithm is best adapted for subjects between 20-70 years old.
+The algorithm has a very low sensitivity and thus performs very poorly in the presence of atelectasis, cardiomegaly, emphysema.
+In the presence of other diseases, due to the high specificity in that condition, the algorithm has a better use if employed mainly to dismiss pneumonia.
 
 **Clinical Impact of Performance:**
 
-The algotihm was trained in a huge dataset where only 1.28% of the images corresponded to patients with pneumonia. Then it is designed to have a high number of false positives in order to minimize false negatives.
+The algorithm was trained in a huge dataset where only 1.28% of the images corresponded to patients with pneumonia and trained for a clinical setting where pneumonia is prevalent in 20% of cases. Under this condition, recall is a wel adapted metric because it will favor a high number of false positives in order to minimize false negatives, and thus a negative impact on the patient. However, this model is designed to assist a radiologist in diagnosis, so the best F1 score will be considered to evaluate performance. 
 
 ### 2. Algorithm Design and Function
 
@@ -32,7 +34,12 @@ Model plot: "model_1: Model" corresponds to a pretrained VGG16 architecture.
 
 **DICOM Checking Steps:**
 
-Images checked to be gray images.
+Check for imaging modality: X-ray ('DX').
+Check for imaged body part: 'CHEST'.
+Check for patient position: posterior/anterior ('PA') or anterior/posterior ('AP').
+Check patien's age: between 2 and 90 years old.
+Images checked to be gray images, if not turned to gray.
+
 
 **Preprocessing Steps:**
 
@@ -81,29 +88,39 @@ Model_1 below corresponds to pretrained VGG16 architecture.
 
 <img src="./p-r_curve.png" alt="performance." width="600"/>
 
+ * F₁ score vs. threshold:
+
+<img src="./f1_thresh.png" alt="f1score." width="600"/>
+
 **Final Threshold and Explanation:**
 
-Given that the classes of interest in the dataset are so unbalanced, the behavior of the non dominant class was considered and thus more importance was given to the recall metric. For the develped model, lower thresholds give rise to better recalls but they considerably increase the false positive rates. A threshold of 0.45 giving an acceptable recall of ~0.7 was choosen as it gives a good balance between true positves and false positives: it will detect true positives ~70% of the times without exagerating the account of false positives.
+The metric of choice ti choose the threshold was the F₁ score. As the plot above shows, the best score is obtained for a threshold of \~0.34. Under the chosen threshold, the algorithm gives the following during validation:  
+- Accuracy: \~0.65  
+- Precision: \~0.32  
+- Recall: \~0.61  
+- F₁ Score: \~0.42
 
 ### 4. Databases
  (For the below, include visualizations as they are useful and relevant)
+
+ The training and validation datasets are comprised of chest X-rays ('DX') images for female and male patients bewteen 2 and 90 years old. The X-ray images have either an anterior/posterior or a posterior/anterior view. Finally the most common co-occurrences with pneumonia are infiltration, edema, atelectasis and effusion. Only in 22.5% of cases where there is a finding in an image, pneumonia is found alone.
 
 **Description of Training Dataset:** 
 
   - Data with no pneumonia: 50%.
   - Data with pneumonia: 50%.
   - Number of training images: 2288.
-  - Number of validating images: 6037.
+  - Number of validating images: 1073.
 
 **Description of Validation Dataset:** 
 
-  - Data with no pneumonia (as in original dataset): 98.72%.
-  - Data with pneumonia (as in original dataset): 1.28%.
-  - Number of validation images (different from training validation images): 6037.
+  - Data with no pneumonia (as in original dataset): 80%.
+  - Data with pneumonia (as in original dataset): 20%.
+  - Number of validation images (different from training validation images): 1072.
 
 ### 5. Ground Truth
 
-Data curated by NIH. Ground truth labels extracted using Natural Language Processing (NLP). This is one of its biggest limitation but the NLP accuracy labeling was estimated to be better than 90%.
+Data curated by NIH. Ground truth labels extracted using Natural Language Processing (NLP). This is one of its biggest limitations but the NLP accuracy labeling was estimated to be better than 90%.
 
 The second biggest limitation is the low amount of pneumonia images in the dataset but this was taken into account for training and model results interpretation.
 
@@ -113,12 +130,17 @@ The second biggest limitation is the low amount of pneumonia images in the datas
 
   - Human subjects between 20-70 years old.
   - Chest X-ray studies taken in PA or AP positions.
-  - Most common co-occorrences: edema and infiltration.
+  - Most common co-occorrences to avoid: edema, infiltration, atelectasis and effusion.
 
 **Ground Truth Acquisition Methodology:**
 
-The optimal ground truth will take into account confirmation of the disease by histopathology. When this is not possible the labelling from experienced radiologists could be considered.
+The algorithm will be used as an aid tool for a radiologist's diagnosis. As such, the silver standard measure is used to evaluate the algorithm. In this particular case, the silver standard is the labelling from experienced radiologists.
 
 **Algorithm Performance Standard:**
 
-To evaluate the algorithm performance, F1 scores of the algorithm predictions compared to 4 different radiologists will be considered. A final F1 average score weighted by the radiologist's years of experience will be reported as the final performance standard.
+According to [Rajpurkar et al. [1]](https://arxiv.org/pdf/1711.05225.pdf) to evaluate the algorithm performance F₁ scores of the algorithm predictions are compared to scores from 4 different radiologists.  A final F₁ score greater than the average from radiologists' scores is acceptable. In this case, an F₁ > 0.387 stands for a good model.
+
+**References:**
+
+[1] Pranav Rajpurkar, Jeremy Irvin, Kaylie Zhu, Brandon Yang, Hershel Mehta, Tony Duan, Daisy Ding, Aarti Bagul, Curtis Langlotz, Katie Shpanskaya, Matthew P. Lungren, Andrew Y. Ng,
+    *"CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning"*, 2017, [https://arxiv.org/pdf/1711.05225.pdf](https://arxiv.org/pdf/1711.05225.pdf)
