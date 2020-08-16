@@ -154,7 +154,7 @@ class UNetExperiment:
                 
                 # TASK: Write validation code that will compute loss on a validation sample
                 # get data and labels
-                data = batch["image"].to(self.deviced, type=torch.float)
+                data = batch["image"].to(self.device, dtype=torch.float)
                 target = batch["seg"].to(self.device)
                 # predict and apply activation function softmax
                 prediction = self.model(data)
