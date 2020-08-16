@@ -66,9 +66,9 @@ class UNetInferenceAgent:
         # with the label in 3D Slicer.
 
         # volume to tensor
-        vol = torch.from_numpy(volume).unsqueeze(0)
+        vol = torch.from_numpy(volume).unsqueeze(1)
         # predict
-        infer = self.model(vol.to(self.device))
+        infer = self.model(vol.to(self.device, dtype=torch.float))
         # to numpy
         slices = np.squeeze(infer.cpu().detach())
 
