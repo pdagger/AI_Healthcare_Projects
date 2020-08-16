@@ -15,7 +15,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 from data_prep.SlicesDataset import SlicesDataset
 from utils.utils import log_to_tensorboard
-from utils.volume_stats import Dice3d, Jaccard3d, Sensitivity, Specifcity
+from utils.volume_stats import Dice3d, Jaccard3d, Sensitivity, Specificity
 from networks.RecursiveUNet import UNet
 from inference.UNetInferenceAgent import UNetInferenceAgent
 
@@ -253,7 +253,7 @@ class UNetExperiment:
             # * Dice-per-slice and render combined slices with lowest and highest DpS
             # * Dice per class (anterior/posterior)
             sens = Sensitivity(pred_label, x["seg"])
-            spec = Specifcity(pred_label, x["seg"])
+            spec = Specificity(pred_label, x["seg"])
             sens_list.append(sens)
             spec_list.append(spec)
 
