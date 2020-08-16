@@ -153,7 +153,14 @@ class UNetExperiment:
             for i, batch in enumerate(self.val_loader):
                 
                 # TASK: Write validation code that will compute loss on a validation sample
-                # <YOUR CODE HERE>
+                # get data and labels
+                data = batch["image"].to(self.device)
+                target = batch["seg"].to(self.device)
+                # predict and apply activation function softmax
+                prediction = self.model(data)
+                prediction_softmax = F.softmax(prediction, dim=1)
+                # get loss
+                loss = self.loss_function(prediction, target[:, 0, :, :])
 
                 print(f"Batch {i}. Data shape {data.shape} Loss {loss}")
 
