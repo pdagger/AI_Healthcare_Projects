@@ -96,7 +96,7 @@ class UNetExperiment:
             # TASK: You have your data in batch variable. Put the slices as 4D Torch Tensors of 
             # shape [BATCH_SIZE, 1, PATCH_SIZE, PATCH_SIZE] into variables data and target. 
             # Feed data to the model and feed target to the loss function
-            data = batch["image"].to(self.device)
+            data = batch["image"].to(self.device, dtype=torch.float)
             target = batch["seg"].to(self.device)
 
             prediction = self.model(data)
