@@ -24,8 +24,13 @@ def Dice3d(a, b):
 
     # TASK: Write implementation of Dice3D. If you completed exercises in the lessons
     # you should already have it.
-    # <YOUR CODE HERE>
-    pass
+    intersection = np.sum(a*b)
+    volumes = np.sum(a) + np.sum(b)
+
+    if volumes == 0:
+        return -1
+
+    return 2.*float(intersection) / float(volumes)
 
 def Jaccard3d(a, b):
     """
