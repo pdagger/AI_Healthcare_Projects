@@ -48,12 +48,13 @@ def LoadHippocampusData(root_dir, y_shape, z_shape):
         # Note that since we feed individual slices to the CNN, we only need to 
         # extend 2 dimensions out of 3. We choose to extend coronal and sagittal here
 
-        # TASK: med_reshape function is not complete. Go and fix it!
+        # TASK: med_reshape function is not complete. Go and fix it! Done
         image = med_reshape(image, new_shape=(image.shape[0], y_shape, z_shape))
         label = med_reshape(label, new_shape=(label.shape[0], y_shape, z_shape)).astype(int)
 
         # TASK: Why do we need to cast label to int?
-        # ANSWER: 
+        # ANSWER: med_shape calls np.zeros which returns an array of floats 
+        #         and the orginal labels are of type int
 
         out.append({"image": image, "seg": label, "filename": f})
 
