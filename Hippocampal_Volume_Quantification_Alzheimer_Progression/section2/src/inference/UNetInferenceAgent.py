@@ -68,8 +68,9 @@ class UNetInferenceAgent:
         # volume to tensor
         vol = torch.from_numpy(volume).unsqueeze(1)
         # predict
-        infer = self.model(vol.to(self.device, dtype=torch.float))
+        infer = self.model(vol.to(self.device, dtype=torch.float)).cpu().detach()
         # to numpy
-        slices = np.squeeze(infer.cpu().detach())
+        #slices = np.squeeze(infer.cpu().detach())
+        _, slices = torch.max(infer, 1)
 
-        return slices
+        return slices.numpy()
