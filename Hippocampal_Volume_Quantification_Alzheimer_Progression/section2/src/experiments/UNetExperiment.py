@@ -44,7 +44,7 @@ class UNetExperiment:
         os.makedirs(self.out_dir, exist_ok=True)
 
         # Create data loaders
-        # TASK: SlicesDataset class is not complete. Go to the file and complete it. 
+        # TASK: SlicesDataset class is not complete. Go to the file and complete it. Done
         # Note that we are using a 2D version of UNet here, which means that it will expect
         # batches of 2D slices.
         self.train_loader = DataLoader(SlicesDataset(dataset[split["train"]]),
