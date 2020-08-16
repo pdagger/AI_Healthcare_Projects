@@ -15,7 +15,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 from data_prep.SlicesDataset import SlicesDataset
 from utils.utils import log_to_tensorboard
-from utils.volume_stats import Dice3d, Jaccard3d
+from utils.volume_stats import Dice3d, Jaccard3d, Sensitivity, Specifcity
 from networks.RecursiveUNet import UNet
 from inference.UNetInferenceAgent import UNetInferenceAgent
 
@@ -225,6 +225,8 @@ class UNetExperiment:
         out_dict["volume_stats"] = []
         dc_list = []
         jc_list = []
+        sens_list = []
+        spec_list = []
 
         # for every in test set
         for i, x in enumerate(self.test_data):
@@ -233,7 +235,7 @@ class UNetExperiment:
             # We compute and report Dice and Jaccard similarity coefficients which 
             # assess how close our volumes are to each other
 
-            # TASK: Dice3D and Jaccard3D functions are not implemented. 
+            # TASK: Dice3D and Jaccard3D functions are not implemented.  Done   
             #  Complete the implementation as we discussed
             # in one of the course lessons, you can look up definition of Jaccard index 
             # on Wikipedia. If you completed it
@@ -250,6 +252,10 @@ class UNetExperiment:
             #   under/over segmenting)
             # * Dice-per-slice and render combined slices with lowest and highest DpS
             # * Dice per class (anterior/posterior)
+            sens = Sensitivity(pred_label, x["seg"])
+            spec = Specifcity(pred_label, x["seg"])
+            sens_list.append(sens)
+            spec_list.append(spec)
 
             out_dict["volume_stats"].append({
                 "filename": x['filename'],
