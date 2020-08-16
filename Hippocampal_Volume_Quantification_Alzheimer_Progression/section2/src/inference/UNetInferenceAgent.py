@@ -37,8 +37,13 @@ class UNetInferenceAgent:
         Returns:
             3D NumPy array with prediction mask
         """
-        
-        raise NotImplementedError
+        # normalize each slice between 0 and 1
+        for i in range(volume.shape[0]):
+            volume[i] = (volume[i] - np.min(volume[i])) / (np.max(volume[i]) - np.min(volume[i])) 
+        # reshape volume to model specs
+        vol = med_reshape(volume, new_shape=(volume.shape[0], self.patch_size, self.patch_size))
+
+        return single_volume_inference(vol)
 
     def single_volume_inference(self, volume):
         """
@@ -59,6 +64,12 @@ class UNetInferenceAgent:
         # that, put all slices into a 3D Numpy array. You can verify if your method is 
         # correct by running it on one of the volumes in your training set and comparing 
         # with the label in 3D Slicer.
-        # <YOUR CODE HERE>
 
-        return # 
+        # volume to tensor
+        vol = torch.from_numpy(vol).unsqueeze(0).unsqueeze(0)
+        # predict
+        infer = model(vol.to(self.device))
+        # to numpy
+        slices = np.squeeze(infer.cpu().detach())
+
+        return slices

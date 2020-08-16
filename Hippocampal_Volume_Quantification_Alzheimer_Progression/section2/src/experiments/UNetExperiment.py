@@ -218,7 +218,7 @@ class UNetExperiment:
         # clinical environment. 
 
         # TASK: Inference Agent is not complete. Go and finish it. Feel free to test the class
-        # in a module of your own by running it against one of the data samples
+        # in a module of your own by running it against one of the data samples Done
         inference_agent = UNetInferenceAgent(model=self.model, device=self.device)
 
         out_dict = {}
