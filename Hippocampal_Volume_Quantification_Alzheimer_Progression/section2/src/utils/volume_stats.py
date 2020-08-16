@@ -80,10 +80,10 @@ def Sensitivity(gt, pred):
     Returns:
         float
     """
-    if (len(a.shape) != 3) or (len(b.shape) != 3):
+    if (len(gt.shape) != 3) or (len(pred.shape) != 3):
         raise Exception(f"Expecting 3 dimensional inputs, got {a.shape} and {b.shape}")
 
-    if (a.shape != b.shape):
+    if (gt.shape != pred.shape):
         raise Exception(f"Expecting inputs of the same shape, got {a.shape} and {b.shape}")
 
     # TASK: Write implementation of Jaccard similarity coefficient. Please do not use 
@@ -112,10 +112,10 @@ def Specificity(gt, pred):
     Returns:
         float
     """
-    if (len(a.shape) != 3) or (len(b.shape) != 3):
+    if (len(gt.shape) != 3) or (len(pred.shape) != 3):
         raise Exception(f"Expecting 3 dimensional inputs, got {a.shape} and {b.shape}")
 
-    if (a.shape != b.shape):
+    if (gt.shape != pred.shape):
         raise Exception(f"Expecting inputs of the same shape, got {a.shape} and {b.shape}")
 
     # TASK: Write implementation of Jaccard similarity coefficient. Please do not use 
