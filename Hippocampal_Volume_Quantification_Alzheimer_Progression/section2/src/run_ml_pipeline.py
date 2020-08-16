@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     # Set up and run experiment
     
-    # TASK: Class UNetExperiment has missing pieces. Go to the file and fill them in
+    # TASK: Class UNetExperiment has missing pieces. Go to the file and fill them in Done
     exp = UNetExperiment(c, split, data)
 
     # You could free up memory by deleting the dataset
