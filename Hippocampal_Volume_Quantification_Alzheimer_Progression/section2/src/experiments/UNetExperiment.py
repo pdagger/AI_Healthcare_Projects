@@ -260,13 +260,18 @@ class UNetExperiment:
             out_dict["volume_stats"].append({
                 "filename": x['filename'],
                 "dice": dc,
-                "jaccard": jc
+                "jaccard": jc,
+                "sensitivity": sens,
+                "specificity": spec
                 })
             print(f"{x['filename']} Dice {dc:.4f}. {100*(i+1)/len(self.test_data):.2f}% complete")
 
         out_dict["overall"] = {
             "mean_dice": np.mean(dc_list),
-            "mean_jaccard": np.mean(jc_list)}
+            "mean_jaccard": np.mean(jc_list),
+            "mean_sensitivity": np.mean(sens_list)
+            "mean_specificity": np.mean(spec_list)
+            }
 
         print("\nTesting complete.")
         return out_dict
