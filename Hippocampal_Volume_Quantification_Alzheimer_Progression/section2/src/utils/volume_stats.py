@@ -86,8 +86,6 @@ def Sensitivity(gt, pred):
     if (gt.shape != pred.shape):
         raise Exception(f"Expecting inputs of the same shape, got {a.shape} and {b.shape}")
 
-    # TASK: Write implementation of Jaccard similarity coefficient. Please do not use 
-    # the Dice3D function from above to do the computation ;)
     gt[gt > 0] = 1
     pred[pred > 0] = 1
 
@@ -101,7 +99,7 @@ def Sensitivity(gt, pred):
 
 def Specificity(gt, pred):
     """
-    This will compute the sensitivity metric for two 3-dimensional volumes
+    This will compute the specificity metric for two 3-dimensional volumes
     Volumes are expected to be of the same size. We are expecting binary masks - 
     0's are treated as background and anything else is counted as data
 
@@ -118,13 +116,14 @@ def Specificity(gt, pred):
     if (gt.shape != pred.shape):
         raise Exception(f"Expecting inputs of the same shape, got {a.shape} and {b.shape}")
 
-    # TASK: Write implementation of Jaccard similarity coefficient. Please do not use 
-    # the Dice3D function from above to do the computation ;)
     gt[gt > 0] = 1
     pred[pred > 0] = 1
 
-    tn = np.sum(gt[(gt == 0) & (pred == 0)])
-    fp = np.sum(gt[(gt == 0) & (pred == 1)])
+    gt = 1 - gt
+    pred = 1 - pred
+
+    tn = np.sum(gt[gt == pred])
+    fp = np.sum(gt[gt != pred])
 
     if (fp + tn == 0):
         return -1
