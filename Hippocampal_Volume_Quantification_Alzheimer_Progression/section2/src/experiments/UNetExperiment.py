@@ -269,7 +269,7 @@ class UNetExperiment:
         out_dict["overall"] = {
             "mean_dice": np.mean(dc_list),
             "mean_jaccard": np.mean(jc_list),
-            "mean_sensitivity": np.mean(sens_list)
+            "mean_sensitivity": np.mean(sens_list),
             "mean_specificity": np.mean(spec_list)
             }
 
