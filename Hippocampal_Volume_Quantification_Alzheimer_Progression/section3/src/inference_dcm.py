@@ -101,11 +101,21 @@ def create_report(inference, header, orig_vol, pred_vol):
     # depend on how you present them.
 
     # SAMPLE CODE BELOW: UNCOMMENT AND CUSTOMIZE
-    # draw.text((10, 0), "HippoVolume.AI", (255, 255, 255), font=header_font)
-    # draw.multiline_text((10, 90),
-    #                     f"Patient ID: {header.PatientID}\n"
-    #                       <WHAT OTHER INFORMATION WOULD BE RELEVANT?>
-    #                     (255, 255, 255), font=main_font)
+    draw.text((10, 0), "HippoVolume.AI", (255, 255, 255), font=header_font)
+    draw.multiline_text((10, 90),
+                        f"Patient ID: {header.PatientID}\n"
+                        f"Patient Name: {header.PatientName}\n"
+                        f"Patient Age: {header.PatientAge}\n"
+                        f"Patient Height: {header.PatientHeight} m\n"
+                        f"Patient Weight: {header.PatientWeight} kg\n"
+                        f"Study Description: {header.StudyDescription}\n"
+                        f"Series Description: {header.SeriesDescription}\n"
+                        f"Modality: {header.Modality}\n"
+                        f"Image Type: {header.ImageType}\n"
+                        f"Anterior Volume: {inference['anterior']} voxels\n"
+                        f"Posterior Volume: {inference['posterior']} voxels\n"
+                        f"Total Volume: {inference['total']} voxels\n",
+                        (255, 255, 255), font=main_font)
 
     # STAND-OUT SUGGESTION:
     # In addition to text data in the snippet above, can you show some images?
