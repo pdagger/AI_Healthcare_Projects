@@ -238,8 +238,13 @@ def get_series_for_inference(path):
     # certain way. Can you figure out which is that? 
     # Hint: inspect the metadata of HippoCrop series
 
-    # <YOUR CODE HERE>
+    # DONE
+    # On the DICOM metadata the attribute (0008, 103e) Series Description 
+    # was et to 'HippoCrop'
 
+    series_for_inference = [dcm for dcm in dicoms if (dcm.SeriesDescription == 'HippoCrop')]
+    series_for_inference = np.array(series_for_inference)
+    
     # Check if there are more than one series (using set comprehension).
     if len({f.SeriesInstanceUID for f in series_for_inference}) != 1:
         print("Error: can not figure out what series to run inference on")
