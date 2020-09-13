@@ -60,7 +60,7 @@ def get_predicted_volumes(pred):
         A dictionary with respective volumes
     """
 
-    # TASK: Compute the volume of your hippocampal prediction
+    # Done: Compute the volume of your hippocampal prediction
     volume_ant = np.sum(pred == 1)
     volume_post = np.sum(pred == 2)
     total_volume = volume_ant + volume_post
@@ -94,7 +94,7 @@ def create_report(inference, header, orig_vol, pred_vol):
 
     slice_nums = [orig_vol.shape[2]//3, orig_vol.shape[2]//2, orig_vol.shape[2]*3//4] # is there a better choice?
 
-    # TASK: Create the report here and show information that you think would be relevant to
+    # Done: Create the report here and show information that you think would be relevant to
     # clinicians. A sample code is provided below, but feel free to use your creative 
     # genius to make if shine. After all, the is the only part of all our machine learning 
     # efforts that will be visible to the world. The usefulness of your computations will largely
@@ -244,7 +244,7 @@ def get_series_for_inference(path):
 
     series_for_inference = [dcm for dcm in dicoms if (dcm.SeriesDescription == 'HippoCrop')]
     series_for_inference = np.array(series_for_inference)
-    
+
     # Check if there are more than one series (using set comprehension).
     if len({f.SeriesInstanceUID for f in series_for_inference}) != 1:
         print("Error: can not figure out what series to run inference on")
@@ -277,7 +277,7 @@ if __name__ == "__main__":
 
     print(f"Looking for series to run inference on in directory {study_dir}...")
 
-    # TASK: get_series_for_inference is not complete. Go and complete it
+    # Done: get_series_for_inference is not complete. Go and complete it
     volume, header = load_dicom_volume_as_numpy_from_list(get_series_for_inference(study_dir))
     print(f"Found series of {volume.shape[2]} axial slices")
 
@@ -285,29 +285,29 @@ if __name__ == "__main__":
     # TASK: Use the UNetInferenceAgent class and model parameter file from the previous section
     inference_agent = UNetInferenceAgent(
         device="cpu",
-        parameter_file_path=r"<PATH TO PARAMETER FILE>")
+        parameter_file_path=r"../../section2/out/model.pth")
 
     # Run inference
-    # TASK: single_volume_inference_unpadded takes a volume of arbitrary size 
+    # Done: single_volume_inference_unpadded takes a volume of arbitrary size 
     # and reshapes y and z dimensions to the patch size used by the model before 
     # running inference. Your job is to implement it.
     pred_label = inference_agent.single_volume_inference_unpadded(np.array(volume))
-    # TASK: get_predicted_volumes is not complete. Go and complete it
+    # Done: get_predicted_volumes is not complete. Go and complete it
     pred_volumes = get_predicted_volumes(pred_label)
 
     # Create and save the report
     print("Creating and pushing report...")
-    report_save_path = r"<TEMPORARY PATH TO SAVE YOUR REPORT FILE>"
-    # TASK: create_report is not complete. Go and complete it. 
+    report_save_path = r"../out/report.dcm"
+    # Done: create_report is not complete. Go and complete it. 
     # STAND OUT SUGGESTION: save_report_as_dcm has some suggestions if you want to expand your
     # knowledge of DICOM format
     report_img = create_report(pred_volumes, header, volume, pred_label)
     save_report_as_dcm(header, report_img, report_save_path)
 
     # Send report to our storage archive
-    # TASK: Write a command line string that will issue a DICOM C-STORE request to send our report
+    # DONE: Write a command line string that will issue a DICOM C-STORE request to send our report
     # to our Orthanc server (that runs on port 4242 of the local machine), using storescu tool
-    os_command("<COMMAND LINE TO SEND REPORT TO ORTHANC>")
+    os_command(f"storescu 127.0.0.1 4242 -v -aec INFERENCE +r +sd {report_save_path}")
 
     # This line will remove the study dir if run as root user
     # Sleep to let our StoreSCP server process the report (remember - in our setup
