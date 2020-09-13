@@ -105,9 +105,6 @@ def create_report(inference, header, orig_vol, pred_vol):
     draw.multiline_text((10, 90),
                         f"Patient ID: {header.PatientID}\n"
                         f"Patient Name: {header.PatientName}\n"
-                        f"Patient Age: {header.PatientAge}\n"
-                        f"Patient Height: {header.PatientHeight} m\n"
-                        f"Patient Weight: {header.PatientWeight} kg\n"
                         f"Study Description: {header.StudyDescription}\n"
                         f"Series Description: {header.SeriesDescription}\n"
                         f"Modality: {header.Modality}\n"
