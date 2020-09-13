@@ -43,7 +43,7 @@ class UNetInferenceAgent:
         # reshape volume to model specs
         vol = med_reshape(volume, new_shape=(volume.shape[0], self.patch_size, self.patch_size))
 
-        return single_volume_inference(vol)
+        return self.single_volume_inference(vol)
 
     def single_volume_inference(self, volume):
         """
