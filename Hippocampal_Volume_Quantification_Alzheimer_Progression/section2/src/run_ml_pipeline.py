@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # the array with indices of training volumes to be used for training, validation 
     # and testing respectively.
     split['train'], split['val'] = train_test_split(keys, test_size=0.2)
-    split['train'], split['test'] = train_test_split(split['val'], test_size=0.5)
+    split['val'], split['test'] = train_test_split(split['val'], test_size=0.5)
 
     # Set up and run experiment
     
