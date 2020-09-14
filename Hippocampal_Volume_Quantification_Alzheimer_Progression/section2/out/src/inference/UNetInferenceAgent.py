@@ -37,9 +37,6 @@ class UNetInferenceAgent:
         Returns:
             3D NumPy array with prediction mask
         """
-        # normalize each slice between 0 and 1
-        for i in range(volume.shape[0]):
-            volume[i] = (volume[i] - np.min(volume[i])) / (np.max(volume[i]) - np.min(volume[i])) 
         # reshape volume to model specs
         vol = med_reshape(volume, new_shape=(volume.shape[0], self.patch_size, self.patch_size))
 
