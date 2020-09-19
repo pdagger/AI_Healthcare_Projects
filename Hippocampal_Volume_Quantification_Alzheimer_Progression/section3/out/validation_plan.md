@@ -15,5 +15,11 @@ The data was used as follows:
 According to [medicaldecathlon.com](http://medicaldecathlon.com/): "All data has been labeled and verified by an expert human rater, and with the best effort to mimic the accuracy required for clinical use. For more information on the data, please refer to [https://arxiv.org/abs/1902.09063](https://arxiv.org/abs/1902.09063)"
 
 # Training performance of the algorithm measured vs real-world performance going to be estimated:
+The training performance of the algorithm is measured using the Jacard similarity coefficient and Dice score comparing the predicted volume to the training volume.
+
+The real-world performance is going to be estimated by averaging the volume identification results from 3 experienced radiologists.
 
 # What data will the algorithm perform well in the real world and what data it might not perform well on?
+The algorithm will perform well in 3D T2 MRI scans of the brain from adult female and male subjects where each voxel has a cube shape.
+
+The algorithm may not peform well in images with rectangular pixels or MRI scans other than of type T2.
