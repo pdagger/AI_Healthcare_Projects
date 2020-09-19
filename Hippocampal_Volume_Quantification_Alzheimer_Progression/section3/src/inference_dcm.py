@@ -91,8 +91,8 @@ def create_report(inference, header, orig_vol, pred_vol):
 
     header_font = ImageFont.truetype("assets/Roboto-Regular.ttf", size=40)
     main_font = ImageFont.truetype("assets/Roboto-Regular.ttf", size=20)
-
-    slice_nums = [orig_vol.shape[2]//3, orig_vol.shape[2]//2, orig_vol.shape[2]*3//4] # is there a better choice?
+    # use z axis to choose slices
+    slice_nums = [orig_vol.shape[0]//3, orig_vol.shape[0]//2, orig_vol.shape[0]*3//4]
 
     # Done: Create the report here and show information that you think would be relevant to
     # clinicians. A sample code is provided below, but feel free to use your creative 
@@ -101,6 +101,10 @@ def create_report(inference, header, orig_vol, pred_vol):
     # depend on how you present them.
 
     # SAMPLE CODE BELOW: UNCOMMENT AND CUSTOMIZE
+    x, y = header.PixelSpacing
+    z = header.SliceThickness
+    voxel_size = x * y * z 
+    
     draw.text((10, 0), "HippoVolume.AI", (255, 255, 255), font=header_font)
     draw.multiline_text((10, 90),
                         f"Patient ID: {header.PatientID}\n"
@@ -109,9 +113,12 @@ def create_report(inference, header, orig_vol, pred_vol):
                         f"Series Description: {header.SeriesDescription}\n"
                         f"Modality: {header.Modality}\n"
                         f"Image Type: {header.ImageType}\n"
-                        f"Anterior Volume: {inference['anterior']} voxels\n"
-                        f"Posterior Volume: {inference['posterior']} voxels\n"
-                        f"Total Volume: {inference['total']} voxels\n",
+                        f"Image Pixel Spacing: {x}x{y} mm\n"
+                        f"Image Slice Thickness: {z} mm\n"
+                        f"Image Voxel volume: {voxel_size} mm\n"
+                        f"Anterior Volume: {inference['anterior']} voxels ({inference['anterior'] * voxel_size} mm³)\n"
+                        f"Posterior Volume: {inference['posterior']} voxels ({inference['posterior'] * voxel_size} mm³)\n"
+                        f"Total Volume: {inference['total']} voxels ({inference['total'] * voxel_size} mm³)\n",
                         (255, 255, 255), font=main_font)
 
     # STAND-OUT SUGGESTION:
@@ -126,6 +133,39 @@ def create_report(inference, header, orig_vol, pred_vol):
     # pil_i = Image.fromarray(nd_img, mode="L").convert("RGBA").resize(<dimensions>)
     # Paste the PIL image into our main report image object (pimg)
     # pimg.paste(pil_i, box=(10, 280))
+
+    draw.text((10, 380), "Areas of interest colored in red:\n", (255, 0, 0), font=main_font)
+    slice_loc = ['Top', 'Medium', 'Bottom']
+    for i in range(len(slice_nums)):
+        slice_org = orig_vol[slice_nums[i]]
+        nd_img_org = np.flip((slice_org/np.max(slice_org))*0xff).T.astype(np.uint8)
+        # place prediction in red channel, 
+        # the original data was padded before making the prediction
+        # resulting in a prediction slice being bigger than an original slice
+        # the original slice was placed at the top left when padding
+        x_org, y_org = slice_org.shape
+        red = pred_vol[slice_nums[i], :x_org, :y_org]
+        red[red > 0] = 255
+        # create empty array for RGBA image containing prediction
+        # data is goign to be rotated and flipped
+        slice_pred = np.zeros((4, y_org, x_org))
+        slice_pred[0] = np.flip(red).T.astype(np.uint8)
+        # also place prediction in alpha channel with transparency 32
+        alpha = red / 255 * 32
+        slice_pred[3] = np.flip(alpha).T.astype(np.uint8)
+        # stack to proper format
+        nd_img_pred = np.dstack(slice_pred).astype(np.uint8)
+        
+        dimensions = np.array(slice_org.shape) * 5
+
+        pil_i_org = Image.fromarray(nd_img_org, mode="L").convert("RGBA").resize(dimensions)
+        pil_i_pred = Image.fromarray(nd_img_pred, mode="RGBA").resize(dimensions)                           
+        # overlap original image with prediction mask
+        pil_i_org.paste(pil_i_pred, (0,0), pil_i_pred)
+        # location of image in report
+        h_loc = 100 + i * dimensions[0] + i * 50
+        draw.text((h_loc, 400), f"{slice_loc[i]}\n", (255, 0, 0), font=main_font)
+        pimg.paste(pil_i_org, box=(h_loc, 430))
 
     return pimg
 
