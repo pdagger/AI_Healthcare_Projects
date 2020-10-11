@@ -28,6 +28,13 @@ def select_first_encounter(df):
     return:
         - first_encounter_df: pandas dataframe, dataframe with only the first encounter for a given patient
     '''
+    # sort df in ascending order by encounter_id
+    df.sort_values('encounter_id', inplace=True)
+    # chose first encounter number per patient
+    first_encounter_values = df.groupby('patient_nbr')['encounter_id'].head(1).values
+    # make df with first encounter data
+    first_encounter_df = df[df.encounter_id.isin(first_encounter_values)]
+
     return first_encounter_df
 
 
