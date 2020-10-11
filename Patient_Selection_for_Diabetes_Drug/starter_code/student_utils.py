@@ -12,6 +12,13 @@ def reduce_dimension_ndc(df, ndc_df):
     return:
         df: pandas dataframe, output dataframe with joined generic drug name
     '''
+    # dict of codes to generic drug name
+    code_drug = dict(zip(df.ndc_code, ndc_df['Non-proprietary Name']))
+    # the nan values was given a random drug equivalent
+    code_drug[np.nan] = np.nan
+    # new column for drug names and map codes to drug names
+    df['generic_drug_name'] = df.ndc_code.map(code_drug)
+
     return df
 
 #Question 4
