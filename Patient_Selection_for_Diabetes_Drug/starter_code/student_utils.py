@@ -33,7 +33,7 @@ def select_first_encounter(df):
     # chose first encounter number per patient
     first_encounter_values = df.groupby('patient_nbr')['encounter_id'].head(1).values
     # make df with first encounter data
-    first_encounter_df = df[df.encounter_id.isin(first_encounter_values)]
+    first_encounter_df = df[df.encounter_id.isin(first_encounter_values)].reset_index(drop = True)
 
     return first_encounter_df
 
