@@ -6,7 +6,7 @@ import os
 from student_utils import create_tf_numeric_feature
 
 def aggregate_dataset(df, grouping_field_list,  array_field):
-    df = df.groupby(grouping_field_list)['encounter_id', 
+    df = df.groupby(grouping_field_list, dropna=False)['encounter_id', 
             array_field].apply(lambda x: x[array_field].values.tolist()).reset_index().rename(columns={
     0: array_field + "_array"}) 
     
