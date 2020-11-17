@@ -49,6 +49,22 @@ def patient_dataset_splitter(df, patient_key='patient_nbr'):
      - validation: pandas dataframe,
      - test: pandas dataframe,
     '''
+    # set ratios
+    validation_ratio = 0.2
+    test_ratio = 0.2
+    # randomize dataset
+    df = df.iloc[np.random.permutation(len(df))]
+    # define split sizes with respect to patient key
+    unique_values = df[patient_key].unique()
+    total_values = len(unique_values)
+    validation_size = round(total_values * validation_ratio)
+    test_size = round(total_values * test_ratio)
+    train_size = total_values - validation_size - test_size
+    # split df
+    train = df[df[patient_key].isin(unique_values[: train_size])].reset_index(drop=True)
+    validation = df[df[patient_key].isin(unique_values[train_size: train_size + validation_size])].reset_index(drop=True)
+    test = df[df[patient_key].isin(unique_values[train_size + validation_size:])].reset_index(drop=True)
+
     return train, validation, test
 
 #Question 7
