@@ -123,8 +123,8 @@ def get_mean_std_from_preds(diabetes_yhat):
     '''
     diabetes_yhat: TF Probability prediction object
     '''
-    m = '?'
-    s = '?'
+    m = diabetes_yhat.mean()
+    s = diabetes_yhat.std()
     return m, s
 
 # Question 10
