@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import tensorflow as tf
+import functools
 
 ####### STUDENTS FILL THIS OUT ######
 #Question 3
@@ -109,6 +110,12 @@ def create_tf_numeric_feature(col, MEAN, STD, default_value=0):
     return:
         tf_numeric_feature: tf feature column representation of the input field
     '''
+    normalizer = functools.partial(normalize_numeric_with_zscore, mean=MEAN, std=STD)
+    tf_numeric_feature = tf.feature_column.numeric_column(key=col, \
+                                                          default_value=default_value, \
+                                                          normalizer_fn=normalizer, \
+                                                          dtype=tf.float64)
+
     return tf_numeric_feature
 
 #Question 9
