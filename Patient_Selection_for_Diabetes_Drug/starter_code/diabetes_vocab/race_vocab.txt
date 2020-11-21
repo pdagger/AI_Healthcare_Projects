@@ -1,7 +1,7 @@
 00
-nan
 Caucasian
 AfricanAmerican
+nan
 Hispanic
-Asian
 Other
+Asian

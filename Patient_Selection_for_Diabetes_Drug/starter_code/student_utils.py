@@ -80,13 +80,14 @@ def create_tf_categorical_feature_cols(categorical_col_list,
     output_tf_list = []
     for c in categorical_col_list:
         vocab_file_path = os.path.join(vocab_dir,  c + "_vocab.txt")
-        '''
-        Which TF function allows you to read from a text file and create a categorical feature
-        You can use a pattern like this below...
-        tf_categorical_feature_column = tf.feature_column.......
+        # read vocab from file
+        vocab = tf.feature_column.categorical_column_with_vocabulary_file(\
+                                            key=c, vocabulary_file=vocab_file_path, num_oov_buckets=1)
+        # create one-hot encoding from vocab
+        tf_categorical_feature_column = tf.feature_column.indicator_column(vocab)
 
-        '''
         output_tf_list.append(tf_categorical_feature_column)
+
     return output_tf_list
 
 #Question 8
