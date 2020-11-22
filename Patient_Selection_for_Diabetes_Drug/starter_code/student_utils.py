@@ -137,6 +137,6 @@ def get_student_binary_prediction(df, col):
         student_binary_prediction: pandas dataframe converting input to flattened numpy array and binary labels
     '''
     min_days = 5 # minimum days to stay at hospital
-    student_binary_prediction = df[col].apply(lambda x: 1 if x >= min_days else 0)
-    
+    student_binary_prediction = df[col].apply(lambda x: 1 if x > min_days else 0)
+
     return student_binary_prediction
